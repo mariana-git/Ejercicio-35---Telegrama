@@ -31,24 +31,24 @@ namespace Telegrama
             string vocalO = @"([oOóÓöÖòÒ])";
             string vocalU = @"([uUúÚùÙüÜ])";
             string espacios = @"(\s)";
-            string noespacios = @"\w";
+            string noespacios = @"\S";
 
             //instancio la clase que creé
-            var cant = new UsandoRegex();
+            //var cant = new UsandoRegex();
             
             //instancio los objetos en esa clase a la vez que agrego al listbox el resultado 
-            lbxAnalisis.Items.Add($"Se encontraron {cant.Resultado(palDiezLetras,texto)} palabras de DIEZ o más letras.");
-            lbxAnalisis.Items.Add($"Se encontraron {cant.Resultado(vocalA, texto)} vocales A.");
-            lbxAnalisis.Items.Add($"Se encontraron {cant.Resultado(vocalE, texto)} vocales E.");
-            lbxAnalisis.Items.Add($"Se encontraron {cant.Resultado(vocalI, texto)} vocales I.");
-            lbxAnalisis.Items.Add($"Se encontraron {cant.Resultado(vocalO, texto)} vocales O.");
-            lbxAnalisis.Items.Add($"Se encontraron {cant.Resultado(vocalU, texto)} vocales U.");
-            porcEspacios = (cant.Resultado(espacios, texto)*100)/(cant.Resultado(espacios, texto)+ cant.Resultado(noespacios, texto));
-
+            lbxAnalisis.Items.Add($"Se encontraron {Resultado(palDiezLetras,texto)} palabras de DIEZ o más letras.");
+            lbxAnalisis.Items.Add($"Se encontraron {Resultado(vocalA, texto)} vocales A.");
+            lbxAnalisis.Items.Add($"Se encontraron {Resultado(vocalE, texto)} vocales E.");
+            lbxAnalisis.Items.Add($"Se encontraron {Resultado(vocalI, texto)} vocales I.");
+            lbxAnalisis.Items.Add($"Se encontraron {Resultado(vocalO, texto)} vocales O.");
+            lbxAnalisis.Items.Add($"Se encontraron {Resultado(vocalU, texto)} vocales U.");
+        
+            //calculo porcentaje de espacios
+            porcEspacios = (Resultado(espacios, texto) * 100) / (Resultado(espacios, texto) + Resultado(noespacios, texto));
             lbxAnalisis.Items.Add($"El {porcEspacios} % del texto son ESPACIOS.");
 
             btnAnalizar.Enabled = false;
-
         }
         private void BtnLimpiar_Click(object sender, EventArgs e)
         {
@@ -62,16 +62,12 @@ namespace Telegrama
         {
             Dispose();
         }
-    }
 
-    class UsandoRegex
-    {
-        public double cadena;
-        public double Resultado(String expresion, string texto)
+        double Resultado(String expresion, string texto)
         {
             Regex regex = new Regex(expresion);
             MatchCollection matches = regex.Matches(texto);
-            cadena = matches.Count;
+            double cadena = matches.Count;
             return cadena;
         }
     }
